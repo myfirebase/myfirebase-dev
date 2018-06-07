@@ -15,6 +15,10 @@ import Myfirebase from './../framework/dist/myfirebase'
 // import VueMaterial from 'vue-material'
 import Firestore from './../vue-firestore/dist/vue-firestore'
 
+import Vuetify from 'vuetify'
+
+Vue.use(Vuetify)
+
 // Middlewares
 import middlewares from '@/middlewares/index'
 
