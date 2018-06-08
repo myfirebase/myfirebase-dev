@@ -22,6 +22,7 @@ export default {
     .then(user => {
         // this.$route.push('/login')
         // this.$route.go(1)
+        //
     })
     .catch(err => {[console.log(err)]})
 
