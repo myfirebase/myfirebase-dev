@@ -1,56 +1,38 @@
 <template>
-    <div class="mdl-layout mdl-js-layout mdl-color--grey-10">
-      <div class="push-down"></div>
-          <main class="mdl-layout__content">
-            <div class="mdl-card mdl-shadow--6dp">
-              <div class="mdl-card__title mdl-color--primary mdl-color-text--white">
-                <h2 class="mdl-card__title-text">Login / Register</h2>
-              </div>
-              <div class="mdl-card__supporting-text">
-                <form action="#">
-                  <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="username" />
-                    <label class="mdl-textfield__label" for="username">Username</label>
-                  </div>
-                  <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="password" id="userpass" />
-                    <label class="mdl-textfield__label" for="userpass">Password</label>
-                  </div>
-                </form>
-              </div>
-              <div class="mdl-card__actions mdl-card--border">
-                <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Log in</button>
-                <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Register</button>                
-                <br><br>
-                <button class="mdl-button google" @click="signInGoogle()">
-                        <img class="icon" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"> google
-                </button>
-                <button class="mdl-button mdl-js-button facebook">
-                        <img class="icon" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/facebook.svg"> facebook
-                </button>
-                <button class="mdl-button twitter">
-                        <img class="icon" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/twitter.svg"> twitter
-                </button>
-                <button class="mdl-button github">
-                        <img class="icon" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/github.svg"> github
-                </button>
-              </div>
-            </div>
-          </main>
-
-          <div id="demo-snackbar-example" ref="snackbar" class="mdl-js-snackbar mdl-snackbar">
-            <div class="mdl-snackbar__text"></div>
-            <button class="mdl-snackbar__action" type="button"></button>
-        </div>
-
-        <div class="push-down"></div>
-    </div>
+    <v-container>
+      <v-form ref="form" lazy-validation>
+        <v-text-field
+          v-model="email"
+          :rules="emailRules"
+          label="E-mail"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="password"
+          :append-icon="e3 ? 'visibility' : 'visibility_off'"
+          :append-icon-cb="() => (e3 = !e3)"
+          :type="e3 ? 'password' : 'text'"
+          name="input-10-2"
+          label="Enter your password"
+          hint="At least 8 characters"
+          min="8"
+          value=""
+          class="input-group--focused"
+        ></v-text-field>
+        <v-btn
+          @click="login"
+        >
+          submit
+        </v-btn>
+        <v-btn @click="clear">clear</v-btn>
+      </v-form>
+    </v-container>
 </template>
 <script>
 export default {
   mounted() {
-    console.log(this.$refs.snackbar.MaterialSnackbar)
-    this.$auth.logout();
+    // console.log(this.$refs.snackbar.MaterialSnackbar)
+    // this.$auth.logout();
     this.$auth.state("/app", "/login").then(user => {
       if (!user) {
         this.ready = true;
@@ -62,26 +44,32 @@ export default {
       email: "",
       password: "",
       error: "",
-      ready: false
+      ready: false,
+      emailRules: [
+        v => !!v || 'E-mail is required',
+        v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+      ],
+      e3: false
     };
   },
   computed: {},
   methods: {
-    login() {
+    login () {
       this.ready = false;
       this.$auth
         .loginWithEmailAndPassword(this.email, this.password)
         .then(user => {
           this.ready = true;
+          console.log("signed-in")
         })
         .catch(error => {
-          this.$refs.snackbar.open();
+          console.log("No user")
           this.ready = true;
           this.error = error.message;
+          console.log(this.error)
         });
-      this.middleware();
     },
-    register() {
+    register () {
       this.ready = false;
       this.$auth
         .registerWithEmailAndPassword(this.email, this.password)
@@ -94,10 +82,7 @@ export default {
           this.$refs.snackbar.open();
         });
     },
-    middleware() {
-      this.password = "";
-    },
-    signInGoogle() {
+    signInGoogle () {
       this.ready = false;
       this.$auth
         .signInWithGoogle()
@@ -114,7 +99,7 @@ export default {
           this.$refs.snackbar.open();
         });
     },
-    signInFacebook() {
+    signInFacebook () {
       this.ready = false;
       this.$auth
         .signInWithFacebook()
@@ -127,7 +112,7 @@ export default {
           this.$refs.snackbar.open();
         });
     },
-    signInTwitter() {
+    signInTwitter () {
       this.ready = false;
       this.$auth
         .signInWithTwitter()
@@ -138,7 +123,7 @@ export default {
           this.$refs.snackbar.open();
         });
     },
-    signInGithub() {
+    signInGithub () {
       this.ready = false;
       this.$auth
         .signInWithGithub()
@@ -148,7 +133,10 @@ export default {
           this.ready = true;
           this.$refs.snackbar.open();
         });
-    }
+    },
+    clear () {
+    this.$refs.form.reset()
+  }
   }
 };
 </script>
