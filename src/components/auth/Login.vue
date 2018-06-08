@@ -26,13 +26,26 @@
         </v-btn>
         <v-btn @click="clear">clear</v-btn>
       </v-form>
+      <v-snackbar
+        :timeout="6000"
+        :top="true"
+        :bottom="false"
+        :right="false"
+        :left="false"
+        :multi-line="false"
+        :vertical="true"
+        v-model="snackbar"
+      >
+        {{ error }}
+        <v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>
+      </v-snackbar>
     </v-container>
 </template>
 <script>
 export default {
   mounted() {
     // console.log(this.$refs.snackbar.MaterialSnackbar)
-    // this.$auth.logout();
+    this.$auth.logout();
     this.$auth.state("/app", "/login").then(user => {
       if (!user) {
         this.ready = true;
@@ -41,6 +54,7 @@ export default {
   },
   data() {
     return {
+      snackbar: false,
       email: "",
       password: "",
       error: "",
@@ -56,17 +70,15 @@ export default {
   methods: {
     login () {
       this.ready = false;
+      this.$auth.logout()
       this.$auth
         .loginWithEmailAndPassword(this.email, this.password)
         .then(user => {
           this.ready = true;
-          console.log("signed-in")
         })
         .catch(error => {
-          console.log("No user")
-          this.ready = true;
+          this.snackbar = true;
           this.error = error.message;
-          console.log(this.error)
         });
     },
     register () {
