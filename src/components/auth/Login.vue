@@ -17,7 +17,7 @@
           hint="At least 8 characters"
           min="8"
           value=""
-          class="input-group--focused"
+          required
         ></v-text-field>
         <v-btn
           @click="login"
@@ -44,7 +44,6 @@
 <script>
 export default {
   mounted() {
-    // console.log(this.$refs.snackbar.MaterialSnackbar)
     this.$auth.logout();
     this.$auth.state("/app", "/login").then(user => {
       if (!user) {
@@ -63,7 +62,7 @@ export default {
         v => !!v || 'E-mail is required',
         v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
       ],
-      e3: false
+      e3: true
     };
   },
   computed: {},
