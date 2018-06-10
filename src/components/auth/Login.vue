@@ -1,31 +1,48 @@
 <template>
     <v-container>
-      <v-form ref="form" lazy-validation>
-        <v-text-field
-          v-model="email"
-          :rules="emailRules"
-          label="E-mail"
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model="password"
-          :append-icon="e3 ? 'visibility' : 'visibility_off'"
-          :append-icon-cb="() => (e3 = !e3)"
-          :type="e3 ? 'password' : 'text'"
-          name="input-10-2"
-          label="Enter your password"
-          hint="At least 8 characters"
-          min="8"
-          value=""
-          required
-        ></v-text-field>
-        <v-btn
-          @click="login"
-        >
-          submit
-        </v-btn>
-        <v-btn @click="clear">clear</v-btn>
-      </v-form>
+    <v-layout row wrap>
+      <v-flex xs10 offset-xs1>
+        <v-card class="mx-auto">
+          <v-card-title primary-title>
+            <div>
+              <h3 class="headline mb-0">Sign In</h3>
+            </div>
+          </v-card-title>
+          <v-card-text>
+          <v-form ref="form" lazy-validation>
+            <v-text-field
+              v-model="email"
+              :rules="emailRules"
+              label="E-mail"
+              required
+            ></v-text-field>
+            <v-text-field
+              v-model="password"
+              :append-icon="e3 ? 'visibility' : 'visibility_off'"
+              :append-icon-cb="() => (e3 = !e3)"
+              :type="e3 ? 'password' : 'text'"
+              name="input-10-2"
+              label="Enter your password"
+              hint="At least 8 characters"
+              min="8"
+              value=""
+              required
+            ></v-text-field>
+            <v-btn
+              @click="login"
+            >
+              Login
+            </v-btn>
+            <v-btn
+              @click="login"
+            >
+              Sign Up
+            </v-btn>
+          </v-form>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
       <v-snackbar
         :timeout="6000"
         :top="true"
@@ -147,7 +164,7 @@ export default {
     },
     clear () {
     this.$refs.form.reset()
-  }
+    }
   }
 };
 </script>
