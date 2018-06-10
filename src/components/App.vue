@@ -1,15 +1,16 @@
 <template>
-    <div class = "container" id="app">
-        <ul class="list-group">
-            <li class="list-group-item" v-for= "p in data" v-bind:key="p['.key']">
-            {{p.name}} <button @click="remove(p)" class="badge">x</button>
-            </li>
-        </ul>
-        
-        <input class="form-control" type="text" v-model="Item.name" v-on:keyup.enter="addItem()">
-        <br>
-        <button class="btn btn-primary" @click="addItem()">Add new</button>
-    </div>
+  <div class = "container" id="app">
+      <ul class="list-group">
+          <li class="list-group-item" v-for= "p in data" v-bind:key="p['.key']">
+          {{p.name}} <button @click="remove(p)" class="badge">x</button>
+          </li>
+      </ul>
+      
+      <input class="form-control" type="text" v-model="Item.name" v-on:keyup.enter="addItem()">
+      <br>
+      <button class="btn btn-primary" @click="addItem()">Add new</button>
+      <button class="btn" @click ="$auth.logout()">Logout</button>
+  </div>
 </template>
 
 <script>
@@ -22,18 +23,18 @@ export default {
     .then(user => {
         // this.$route.push('/login')
         // this.$route.go(1)
-        //
     })
-    .catch(err => {[console.log(err)]})
+    .catch(err => {
+      console.log(err)
+    })
 
     // retrieve messaging token.
     // only for production, you have to register the serviceworker.
-    /*
-        this.$store.state.messaging.getToken()
-            .then((token) => {
-                this.token = token
-            })
-        */
+
+    // this.$store.state.messaging.getToken()
+    //     .then((token) => {
+    //         this.token = token
+    //     })
   },
   firebase() {
     return {
@@ -48,8 +49,8 @@ export default {
   },
   methods: {
     addItem() {
-      this.$firebaseRefs.data.onDisconnect().cancel();
-      this.Item.push();
+      this.$firebaseRefs.data.onDisconnect().cancel()
+      this.Item.push()
       this.Item.name = ""
     },
     deleteItem(key) {
