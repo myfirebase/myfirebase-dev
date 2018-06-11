@@ -1,48 +1,48 @@
 <template>
     <v-container>
-    <v-layout row wrap>
-      <v-flex xs10 offset-xs1>
-        <v-card class="mx-auto">
-          <v-card-title primary-title>
-            <div>
-              <h3 class="headline mb-0">Sign In</h3>
-            </div>
-          </v-card-title>
-          <v-card-text>
-          <v-form ref="form" lazy-validation>
-            <v-text-field
-              v-model="email"
-              :rules="emailRules"
-              label="E-mail"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="password"
-              :append-icon="e3 ? 'visibility' : 'visibility_off'"
-              :append-icon-cb="() => (e3 = !e3)"
-              :type="e3 ? 'password' : 'text'"
-              name="input-10-2"
-              label="Enter your password"
-              hint="At least 8 characters"
-              min="8"
-              value=""
-              required
-            ></v-text-field>
-            <v-btn
-              @click="login"
-            >
-              Login
-            </v-btn>
-            <v-btn
-              @click="login"
-            >
-              Sign Up
-            </v-btn>
-          </v-form>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
+      <v-layout row wrap>
+        <v-flex xs10 offset-xs1>
+          <v-card class="mx-auto">
+            <v-card-title primary-title>
+              <div>
+                <h3 class="headline mb-0">Sign In</h3>
+              </div>
+            </v-card-title>
+            <v-card-text>
+            <v-form ref="form" lazy-validation>
+              <v-text-field
+                v-model="email"
+                :rules="emailRules"
+                label="E-mail"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model="password"
+                :append-icon="e3 ? 'visibility' : 'visibility_off'"
+                :append-icon-cb="() => (e3 = !e3)"
+                :type="e3 ? 'password' : 'text'"
+                name="input-10-2"
+                label="Enter your password"
+                hint="At least 8 characters"
+                min="8"
+                value=""
+                required
+              ></v-text-field>
+              <v-btn
+                @click="login"
+              >
+                Login
+              </v-btn>
+              <v-btn
+                @click="login"
+              >
+                Sign Up
+              </v-btn>
+            </v-form>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
       <v-snackbar
         :timeout="6000"
         :top="true"
@@ -56,6 +56,11 @@
         {{ error }}
         <v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>
       </v-snackbar>
+      <div class="overlay" v-if="!ready">
+        <div class="flex-spinner">
+          <v-progress-circular :size="200" :width="7" indeterminate color="amber"></v-progress-circular>
+        </div> 
+      </div>
     </v-container>
 </template>
 <script>
@@ -93,7 +98,7 @@ export default {
           this.ready = true;
         })
         .catch(error => {
-          this.snackbar = true;
+          this.snackbar = false;
           this.error = error.message;
         });
     },
