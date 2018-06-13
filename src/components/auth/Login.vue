@@ -56,7 +56,7 @@
         {{ error }}
         <v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>
       </v-snackbar>
-      <div class="overlay" v-if="!ready">
+      <div class="overlay" v-if="ready">
         <div class="flex-spinner">
           <v-progress-circular :size="200" :width="7" indeterminate color="amber"></v-progress-circular>
         </div> 
@@ -69,7 +69,7 @@ export default {
     this.$auth.logout();
     this.$auth.state("/app", "/login").then(user => {
       if (!user) {
-        this.ready = true;
+        this.ready = false;
       }
     });
   },
@@ -90,24 +90,25 @@ export default {
   computed: {},
   methods: {
     login () {
-      this.ready = false;
+      this.ready = true;
       this.$auth.logout()
       this.$auth
         .loginWithEmailAndPassword(this.email, this.password)
         .then(user => {
-          this.ready = true;
+          this.ready = false;
         })
         .catch(error => {
-          this.snackbar = false;
+          this.snackbar = true;
+          this.ready = false;
           this.error = error.message;
         });
     },
     register () {
-      this.ready = false;
+      this.ready = true;
       this.$auth
         .registerWithEmailAndPassword(this.email, this.password)
         .then(user => {
-          this.ready = true;
+          this.ready = false;
         })
         .catch(error => {
           this.error = error.message;
@@ -116,55 +117,51 @@ export default {
         });
     },
     signInGoogle () {
-      this.ready = false;
+      this.ready = true;
       this.$auth
         .signInWithGoogle()
         .then(result => {
-          // This gives you a Google Access Token. You can use it to access the Google API.
+          // This gives you the Google's Access Token. You can use it to access the Google API.
           // console.log("Token : " + result.credential.accessToken)
           // The signed-in user info.
           // console.log("User Email : " + result.user.email)
-          this.ready = true;
+          this.ready = false;
         })
         .catch(error => {
           this.error = error.message;
-          this.ready = true;
-          this.$refs.snackbar.open();
+          this.ready = false;
         });
     },
     signInFacebook () {
-      this.ready = false;
+      this.ready = true;
       this.$auth
         .signInWithFacebook()
         .then(result => {
-          this.ready = true;
+          this.ready = false;
         })
         .catch(error => {
           this.error = error.message;
-          this.ready = true;
-          this.$refs.snackbar.open();
+          this.ready = false;
         });
     },
     signInTwitter () {
-      this.ready = false;
+      this.ready = true;
       this.$auth
         .signInWithTwitter()
-        .then(result => (this.ready = true))
+        .then(result => (this.ready = false))
         .catch(error => {
           this.error = error.message;
-          this.ready = true;
-          this.$refs.snackbar.open();
+          this.ready = false;
         });
     },
     signInGithub () {
-      this.ready = false;
+      this.ready = true;
       this.$auth
         .signInWithGithub()
-        .then(result => (this.ready = true))
+        .then(result => (this.ready = false))
         .catch(error => {
           this.error = error.message;
-          this.ready = true;
-          this.$refs.snackbar.open();
+          this.ready = false;
         });
     },
     clear () {
