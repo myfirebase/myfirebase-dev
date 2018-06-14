@@ -37,7 +37,7 @@ Vue.use(Myfirebase, {
 const app = new Vue({
     router,
     store,
-    mounted() {
+    mounted () {
         /**
          * Register Serviceworkers, these serviceworkers are registred while the vue app is mounted.
          * service-worker.js is for app pre-cache.
@@ -52,7 +52,7 @@ const app = new Vue({
             navigator.serviceWorker.register('/firebase-messaging-sw.js')
             this.$store.state.messaging
                 .requestPermission()
-                .then(function() {
+                .then(function () {
                     console.log("Permission accepted")
                 })
                 .catch(function(error) {
@@ -60,7 +60,7 @@ const app = new Vue({
                 })
         }
     },
-    data() {
+    data () {
         return {}
     }
 }).$mount('#app');
