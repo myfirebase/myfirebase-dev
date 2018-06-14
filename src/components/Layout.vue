@@ -5,18 +5,33 @@
           <v-list class="pa-0">
             <v-list-tile avatar>
               <v-list-tile-avatar>
-                <img src="https://randomuser.me/api/portraits/men/85.jpg" >
+                <img :src="$auth.user().photoURL" >
               </v-list-tile-avatar>
               <v-list-tile-content>
-                <v-list-tile-title>John Leider</v-list-tile-title>
+                <v-list-tile-title>{{ $auth.user().displayName || $auth.user().email }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
         </v-toolbar>
         <v-list>
-          <v-list-tile v-for="item in items" :key="item.title">
+          <v-list-tile>
             <v-list-tile-content>
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+              <v-list-tile-title>Realtime database</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile>
+            <v-list-tile-content>
+              <v-list-tile-title>Cloud firestore</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile>
+            <v-list-tile-content>
+              <v-list-tile-title>Update profile</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile @click="logout()">
+            <v-list-tile-content>
+              <v-list-tile-title>Logout</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -28,7 +43,7 @@
         <v-toolbar-items class="hidden-sm-and-down">
           <v-btn flat>Docs</v-btn>
           <v-btn flat>Github</v-btn>
-          <v-btn flat v-if="$auth.user()">SignOut</v-btn>
+          <v-btn flat v-if="$auth.user()" @click="logout()">SignOut</v-btn>
         </v-toolbar-items>
       </v-toolbar>
       <v-content>
@@ -42,18 +57,15 @@
 <script>
 import navbar from "./../components/partials/Navbar";
 export default {
-  mounted() {
+  mounted () {
     this.$auth
       .check()
-      .then(user => {
-        this.loggedIn = true
-      })
-      .catch(err => {});
+      .then(user => {})
+      .catch(err => {})
   },
-  data() {
+  data () {
     return {
       message: "Welcome Myfirebase SPA framework",
-      loggedIn: false,
       items: [
         { title: 'Real time Database', link: 'dashboard' },
         { title: 'Cloud Firestore', link: 'account_box' },
@@ -61,14 +73,18 @@ export default {
       drawer: true
     }
   },
-  methods: {},
+  methods: {
+    logout () {
+      this.$auth.logout()
+    }
+  },
   components: {
     navbar
   }, 
   watch: {
 
   }
-};
+}
 </script>
 
 <style>
