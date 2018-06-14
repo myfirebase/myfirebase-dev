@@ -1,16 +1,11 @@
 <template>
-  <div class = "container" id="app">
-      <ul class="list-group">
-          <li class="list-group-item" v-for= "p in data" v-bind:key="p['.key']">
-          {{p.name}} <button @click="remove(p)" class="badge">x</button>
-          </li>
-      </ul>
-      
-      <input class="form-control" type="text" v-model="Item.name" v-on:keyup.enter="addItem()">
-      <br>
-      <button class="btn btn-primary" @click="addItem()">Add new</button>
-      <button class="btn" @click ="$auth.logout()">Logout</button>
-  </div>
+  <v-layout>
+    <v-list v-for="(item, index) in data" :key="index">
+      <v-list-tile-content>
+        {{item.name}}
+      </v-list-tile-content>
+    </v-list>
+  </v-layout>
 </template>
 
 <script>
@@ -23,6 +18,7 @@ export default {
     .then(user => {
         // this.$route.push('/login')
         // this.$route.go(1)
+        console.log(this.data)
     })
     .catch(err => {
       console.log(err)
@@ -38,7 +34,7 @@ export default {
   },
   firebase() {
     return {
-      data: this.$store.state.database.child("persons")
+      data: this.$store.state.database.child("item")
     };
   },
   data() {
