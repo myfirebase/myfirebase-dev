@@ -65,7 +65,7 @@
 </template>
 <script>
 export default {
-  mounted() {
+  mounted () {
     this.$auth.logout();
     this.$auth.state("/app", "/login").then(user => {
       if (!user) {
@@ -73,7 +73,7 @@ export default {
       }
     });
   },
-  data() {
+  data () {
     return {
       snackbar: false,
       email: "",
@@ -90,17 +90,17 @@ export default {
   computed: {},
   methods: {
     login () {
-      this.ready = true;
+      this.ready = true
       this.$auth.logout()
       this.$auth
         .loginWithEmailAndPassword(this.email, this.password)
         .then(user => {
-          this.ready = false;
+          this.ready = false
         })
         .catch(error => {
-          this.snackbar = true;
-          this.ready = false;
-          this.error = error.message;
+          this.snackbar = true
+          this.ready = false
+          this.error = error.message
         });
     },
     register () {
@@ -108,16 +108,16 @@ export default {
       this.$auth
         .registerWithEmailAndPassword(this.email, this.password)
         .then(user => {
-          this.ready = false;
+          this.ready = false
         })
         .catch(error => {
-          this.error = error.message;
-          this.ready = false;
-          this.$refs.snackbar.open();
+          this.error = error.message
+          this.ready = false
+          this.snackbar = true
         });
     },
     signInGoogle () {
-      this.ready = true;
+      this.ready = true
       this.$auth
         .signInWithGoogle()
         .then(result => {
@@ -125,43 +125,48 @@ export default {
           // console.log("Token : " + result.credential.accessToken)
           // The signed-in user info.
           // console.log("User Email : " + result.user.email)
-          this.ready = false;
+          this.ready = false
         })
         .catch(error => {
-          this.error = error.message;
-          this.ready = false;
+          this.error = error.message
+          this.ready = false
+          this.snackbar = true
+
         });
     },
     signInFacebook () {
-      this.ready = true;
+      this.ready = true
       this.$auth
         .signInWithFacebook()
         .then(result => {
-          this.ready = false;
+          this.ready = false
         })
         .catch(error => {
-          this.error = error.message;
-          this.ready = false;
+          this.error = error.message
+          this.ready = false
+          this.snackbar = true
         });
     },
     signInTwitter () {
-      this.ready = true;
+      this.ready = true
       this.$auth
         .signInWithTwitter()
         .then(result => (this.ready = false))
         .catch(error => {
-          this.error = error.message;
-          this.ready = false;
+          this.error = error.message
+          this.ready = false
+          this.snackbar = true
         });
     },
     signInGithub () {
-      this.ready = true;
+      this.ready = true
       this.$auth
         .signInWithGithub()
         .then(result => (this.ready = false))
         .catch(error => {
-          this.error = error.message;
-          this.ready = false;
+          this.error = error.message
+          this.ready = false
+          this.snackbar = true
         });
     },
     clear () {
