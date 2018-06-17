@@ -1,11 +1,25 @@
 <template>
-  <v-layout>
-    <v-list v-for="(item, index) in data" :key="index">
-      <v-list-tile-content>
-        {{item.name}}
-      </v-list-tile-content>
-    </v-list>
-  </v-layout>
+<v-layout row>
+    <v-flex xs12 sm6 offset-sm3>
+      <v-card row>
+        <v-list two-line subheader>
+          <v-subheader>General</v-subheader>
+          <v-list-tile v-for="(item, index) in data" :key="index" avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>{{item.name}}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+        <v-container>
+        <v-text-field
+        label="Item Name"
+        v-model="Item.name"
+        ></v-text-field>
+        <v-btn @click="addItem()">Success</v-btn>
+        </v-container>
+      </v-card>
+    </v-flex>
+</v-layout>
 </template>
 
 <script>
@@ -13,13 +27,9 @@
 import Item from "./../models/Item";
 
 export default {
-  mounted() {
+  mounted () {
     this.$auth.check()
-    .then(user => {
-        // this.$route.push('/login')
-        // this.$route.go(1)
-        console.log(this.data)
-    })
+    .then(user => { })
     .catch(err => {
       console.log(err)
     })
@@ -32,24 +42,24 @@ export default {
     //         this.token = token
     //     })
   },
-  firebase() {
+  firebase () {
     return {
       data: this.$store.state.database.child("item")
     };
   },
-  data() {
+  data () {
     return {
       token: "",
       Item: new Item(this.$store.state.database.child('item')).init()
     }
   },
   methods: {
-    addItem() {
+    addItem () {
       this.$firebaseRefs.data.onDisconnect().cancel()
       this.Item.push()
       this.Item.name = ""
     },
-    deleteItem(key) {
+    deleteItem (key) {
       this.Item.remove(key);
     }
   }
@@ -65,4 +75,5 @@ export default {
 .data-container {
   width: 700px;
 }
+
 </style>
