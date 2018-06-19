@@ -14,12 +14,12 @@
           </v-list>
         </v-toolbar>
         <v-list>
-          <v-list-tile>
+          <v-list-tile @click="$router.push('/app')">
             <v-list-tile-content>
               <v-list-tile-title>Realtime database</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile>
+          <v-list-tile @click="$router.push('/firestore')">
             <v-list-tile-content>
               <v-list-tile-title>Cloud firestore</v-list-tile-title>
             </v-list-tile-content>
