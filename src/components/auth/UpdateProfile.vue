@@ -1,50 +1,25 @@
 <template>
-    <div class="container">
-        <md-layout md-gutter>
-            <md-layout>
-                <md-layout md-align="center" md-flex-xsmall="100" md-flex-large="100" md-flex-small="100">
-                    <md-card class="">
-                        <md-card-header>
-                            <md-card-header-text>
-                                <div class="md-title">Update Profile</div>
-                                <div class="md-subhead">{{Profile.email}}</div>
-                            </md-card-header-text>
-                            <md-card-media>
-                                <img :src="Profile.photoURL" alt="Profile">
-                            </md-card-media>
-                        </md-card-header>
-                        <md-card-content>
-                            <md-input-container>
-                                <label>Email</label>
-                                <md-input v-model="Profile.email"></md-input>
-                            </md-input-container>
-                            <md-input-container>
-                                <label>Username</label>
-                                <md-input v-model="Profile.displayName"></md-input>
-                            </md-input-container>
-                            <md-input-container>
-                                <label>Update Avatar</label>
-                                <md-file @change.native="getFile" accept="image/*"></md-file>
-                            </md-input-container>
-                        </md-card-content>
-                        <md-card-actions>
-                            <md-button @click="updateProfile()">Save Changes</md-button>
-                            <md-button v-if="newPhoto" @click.native="updateAvatar()">Update Avatar</md-button>
-                        </md-card-actions>
-                    </md-card>
-                </md-layout>
-            </md-layout>
-        </md-layout>
-        <div id="popup1" class="overlay" v-if="ready">
-            <div class="flex-spinner">
-                <md-spinner :md-size="150" md-indeterminate></md-spinner>
-            </div>
-        </div>
-        <md-snackbar :md-position="'top center'" ref="snackbar" :md-duration="4000">
-            <span>{{message}}</span>
-            <md-icon class="md-accent">warning</md-icon>
-        </md-snackbar>
-    </div>
+  <v-card>
+    <v-avatar></v-avatar>
+    <v-card-media
+      class="white--text"
+      height="200px"
+      :src="$auth.user().photoURL"
+    >
+    </v-card-media>
+    <v-card-title>
+      <div>
+        <v-text-field v-model="Profile.email" label="Email"></v-text-field>
+        <v-text-field v-model="Profile.displayName" label="Full name"></v-text-field>
+        <v-text-field label="Avatar" prepend-icon='attach_file' @click="$refs.avatar.click()"></v-text-field>
+        <input type="file" style="display: none" ref="avatar" accept="image/*" @change="">
+        
+      </div>
+    </v-card-title>
+    <v-card-actions>
+      <v-btn flat color="orange">Update</v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
@@ -52,7 +27,7 @@
 import Profile from "./../../models/Profile";
 
 export default {
-  mounted() {
+  mounted () {
     this.$auth.check().then(user => {
       this.Profile.setPhotoURL(user.photoURL)
         .setDisplayName(user.displayName)
@@ -60,7 +35,7 @@ export default {
       this.ready = false;
     });
   },
-  data() {
+  data () {
     return {
       message: "",
       newPhoto: null,
@@ -71,10 +46,10 @@ export default {
   },
   computed: {},
   methods: {
-    getFile(e) {
+    getFile (e) {
       this.newPhoto = e.target.files[0];
     },
-    updateAvatar() {
+    updateAvatar () {
       if (!this.newPhoto) {
         return;
       }
@@ -97,7 +72,7 @@ export default {
         }
       });
     },
-    updateProfilePicture(fileName) {
+    updateProfilePicture (fileName) {
       this.$auth.updateProfilePicture(fileName).then(() => {
           this.synchronize();        
       }).catch(error => {
@@ -105,7 +80,7 @@ export default {
           this.$refs.snackbar.open();
       })
     },
-    updateProfile() {
+    updateProfile () {
       this.ready = true;
       this.$auth
         .user()
@@ -139,7 +114,7 @@ export default {
           this.ready = false;
         });
     },
-    synchronize() {
+    synchronize () {
       this.Profile.setPhotoURL(this.$auth.user().photoURL);
     }
   }
