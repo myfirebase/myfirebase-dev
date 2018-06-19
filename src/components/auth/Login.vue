@@ -39,6 +39,7 @@
                 Sign Up
               </v-btn>
             </v-form>
+            <v-btn @click="signInGoogle">Login with Gmail</v-btn>
             </v-card-text>
           </v-card>
         </v-flex>
