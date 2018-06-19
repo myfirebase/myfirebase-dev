@@ -1,17 +1,32 @@
 <template>
-    <div class = "container" id="app">
-        <ul class="list-group">
-            <li class="list-group-item" v-for= "p in Persons" v-bind:key="p['.key']">
-            {{p.name}} <button @click="remove(p)" class="badge">x</button>
-            </li>
-        </ul>
-        
-        <input class="form-control" type="text" v-model="Person.name" v-on:keyup.enter="add()">
-        <br>
-        <button class="btn btn-primary" @click="add()">Add new</button>
-        <br><br><br>
-        <p>{{zamantoti.name}}</p>
+  <div>
+    <v-card>
+      <v-list two-line subheader>
+        <v-subheader>General</v-subheader>
+        <v-list-tile v-for="(person, index) in Persons" :key="index">
+          <v-list-tile-content>
+            <v-list-tile-title>{{person.name}}</v-list-tile-title>
+          </v-list-tile-content>
+          <v-list-tile-action>
+            <v-icon color="white" @click="remove(person['.key'])">delete</v-icon>
+          </v-list-tile-action>
+        </v-list-tile>
+      </v-list>
+      <v-container>
+      <v-text-field
+      label="Person Name"
+      v-model="Person.name"
+      @keyup.enter="add()"
+      ></v-text-field>
+      <v-btn @click="add()">Add Person</v-btn>
+      </v-container>
+    </v-card>
+    <div class="overlay" v-if="!ready">
+      <div class="flex-spinner">
+        <v-progress-circular :size="200" :width="7" indeterminate color="amber"></v-progress-circular>
+      </div> 
     </div>
+  </div>
 </template>
 
 <script>
@@ -19,49 +34,27 @@
 import Person from "./../models/Person"
 
 export default {
-    created() {
-
+    created () {
+        this.$binding('Persons', this.$store.state.firestore.collection('Persons')).then(data => {
+            this.ready = true
+        })
     },
-    mounted() {
-        // this.$auth.check({
-        //     then: (user) => {
-                
-        //     },
-        //     catch: () => {
-        //         // user is not logged in
-        //     }
-        // })
-        //console.log(this.Houssain)
-        // this.$destroy()
-
-    console.log(this.Persons)
-    },
-    firestore() {
+    data () {
         return {
-            Persons: this.$store.state.firestore.collection("Persons"),
-            zamantoti: this.$store.state.firestore.doc("Persons/zamantoti")
-            
-        }
-    },
-    data() {
-        return {
-            username: "",
-            Person: new Person(this.$store.state.firestore.collection('Persons')).init()
+            Person: new Person(this.$store.state.firestore.collection('Persons')).init(),
+            ready: false
         }
     },
     methods: {
-        add() {
-            console.log(this.Person)
+        add () {
             this.Person.add().then((success) => {
                 this.Person.name = ""
-                console.log("ASDA")
             }).catch(error => {
                 console.log(error.message)
             })
         },
-        remove(e) {
-            this.Person.delete(e['.key']).then(() => {
-                console.log("Done")
+        remove (key) {
+            this.Person.delete(key).then(() => {
             }).catch(error => {
                 console.log(error.message)
             })
