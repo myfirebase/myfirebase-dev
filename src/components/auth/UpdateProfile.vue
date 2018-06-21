@@ -1,4 +1,5 @@
 <template>
+<div>
   <v-card>
     <v-avatar></v-avatar>
     <v-card-media
@@ -11,20 +12,39 @@
       <div>
         <v-text-field v-model="Profile.email" label="Email"></v-text-field>
         <v-text-field v-model="Profile.displayName" label="Full name"></v-text-field>
-        <v-text-field label="Avatar" prepend-icon='attach_file' @click="$refs.avatar.click()"></v-text-field>
+        <v-text-field v-model="selectedPhoto.name" label="Avatar" prepend-icon='attach_file' @click="$refs.avatar.click()"></v-text-field>
         <input type="file" style="display: none" ref="avatar" accept="image/*" @change="getFile">
         
       </div>
     </v-card-title>
     <v-card-actions>
-      <v-btn flat color="orange">Update</v-btn>
+      <v-btn flat color="orange" @click="updateProfile()">Update</v-btn>
     </v-card-actions>
   </v-card>
+  <v-snackbar
+    :timeout="6000"
+    :top="true"
+    :bottom="false"
+    :right="false"
+    :left="false"
+    :multi-line="false"
+    :vertical="true"
+    v-model="snackbar"
+  >
+    {{ message }}
+    <v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>
+  </v-snackbar>
+  <div class="overlay" v-if="ready">
+    <div class="flex-spinner">
+      <v-progress-circular :size="200" :width="7" indeterminate color="amber"></v-progress-circular>
+    </div> 
+  </div>
+</div>
 </template>
 
 <script>
 
-import Profile from "./../../models/Profile";
+import Profile from './../../models/Profile';
 
 export default {
   mounted () {
@@ -37,9 +57,10 @@ export default {
   },
   data () {
     return {
-      message: "",
-      newPhoto: null,
-      error: "",
+      message: '',
+      selectedPhoto: { name: '' },
+      error: '',
+      snackbar: false,
       ready: true,
       Profile: new Profile()
     };
@@ -47,75 +68,65 @@ export default {
   computed: {},
   methods: {
     getFile (e) {
-      this.newPhoto = e.target.files[0];
+      this.selectedPhoto = e.target.files[0]
+      console.log(this.selectedPhoto)
     },
     updateAvatar () {
-      if (!this.newPhoto) {
-        return;
+      if (!this.selectedPhoto) {
+        return
       }
-      this.ready = true;
-      let name = this.newPhoto.name;
+      this.ready = true
+      let name = this.selectedPhoto.name
       this.$storage.upload({
         ref: `/images/${name}`,
-        file: this.newPhoto,
+        file: this.selectedPhoto,
         progress: snapshot => {},
         error: err => {
-          this.message = err.message;
-          this.$refs.snackbar.open();
+          this.message = err.message
+          this.snackbar = true
         },
         completed: downloadURL => {
-          this.updateProfilePicture(downloadURL);
-          this.message = "Your avatar has been updated";
-          this.$refs.snackbar.open();
-          this.newPhoto = null;
-          this.ready = false;
+          this.updateProfilePicture(downloadURL)
+          .then(() => {
+            console.log("profile updated")
+          this.synchronize()
+          console.log(this.$auth.user())
+          this.message = 'Your avatar has been updated'
+          this.snackbar = true
+          this.selectedPhoto = { name: "" }
+          this.ready = false; 
+          }).catch(error => {
+              this.message = error.message;
+              this.snackbar = true
+          })
         }
       });
     },
     updateProfilePicture (fileName) {
-      this.$auth.updateProfilePicture(fileName).then(() => {
-          this.synchronize();        
-      }).catch(error => {
-          this.message = error.message;
-          this.$refs.snackbar.open();
-      })
+      return this.$auth.updateProfilePicture(fileName)
     },
     updateProfile () {
-      this.ready = true;
+      this.ready = true
       this.$auth
         .user()
         .updateProfile(this.Profile.toJson())
         .then(() => {
-          // Multipath Update
-          this.$store.state.database
-            .child("data")
-            .once("value")
-            .then(snapshot => {
-              snapshot.forEach(childSnapshot => {
-                if (
-                  childSnapshot.child("email").val() == this.$auth.user().email
-                ) {
-                  this.$store.state.database
-                    .child("data")
-                    .child(childSnapshot.key)
-                    .update({
-                      name: this.Profile.displayName
-                    });
-                }
-              });
-            });
-          this.message = "Updated";
-          this.$refs.snackbar.open();
-          this.ready = false;
+          this.snackbar = true
+          this.message = 'You have updated your profile successfully'
+          this.ready = false
         })
         .catch(error => {
-          this.message = error.message;
-          this.$refs.snackbar.open();
-          this.ready = false;
+          this.message = error.message
+          this.snackbar = true
+          this.ready = false
         });
+
+        if (this.selectedPhoto.type != undefined) {
+          this.updateAvatar()
+        }
     },
     synchronize () {
-      this.Profile.setPhotoURL(this.$auth.user().photoURL);
+      this.Profile.setPhotoURL(this.$auth.user().photoURL)
     }
   }
 };
