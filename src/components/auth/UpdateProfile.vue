@@ -12,7 +12,7 @@
         <v-text-field v-model="Profile.email" label="Email"></v-text-field>
         <v-text-field v-model="Profile.displayName" label="Full name"></v-text-field>
         <v-text-field label="Avatar" prepend-icon='attach_file' @click="$refs.avatar.click()"></v-text-field>
-        <input type="file" style="display: none" ref="avatar" accept="image/*" @change="">
+        <input type="file" style="display: none" ref="avatar" accept="image/*" @change="getFile">
         
       </div>
     </v-card-title>
