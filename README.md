@@ -1,4 +1,4 @@
-> NOTE: This repository contains the new roadmap-dev of Myfirebase, if you want to build an application with myfirebase please visit the main [Repository](https://github.com/myfirebase\myfirebase).
+> NOTE: This repository contains the new roadmap-dev of Myfirebase, if you want to build an application with myfirebase please visit the main [Repository](https://github.com/myfirebase/myfirebase).
 
 <p align="center">
 <img src = "http://i.imgur.com/eui4MCQ.png">
