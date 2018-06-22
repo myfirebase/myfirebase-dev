@@ -1,7 +1,7 @@
 <template>
     <v-container>
       <v-layout row wrap>
-        <v-flex xs10 offset-xs1>
+        <v-flex xs12>
           <v-card class="mx-auto">
             <v-card-title primary-title>
               <div>
@@ -9,37 +9,53 @@
               </div>
             </v-card-title>
             <v-card-text>
-            <v-form ref="form" lazy-validation>
-              <v-text-field
-                v-model="email"
-                :rules="emailRules"
-                label="E-mail"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="password"
-                :append-icon="e3 ? 'visibility' : 'visibility_off'"
-                :append-icon-cb="() => (e3 = !e3)"
-                :type="e3 ? 'password' : 'text'"
-                name="input-10-2"
-                label="Enter your password"
-                hint="At least 8 characters"
-                min="8"
-                value=""
-                required
-              ></v-text-field>
-              <v-btn
-                @click="login"
-              >
-                Login
+              <v-form ref="form" lazy-validation>
+                <v-text-field
+                  v-model="email"
+                  :rules="emailRules"
+                  label="E-mail"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  v-model="password"
+                  :append-icon="e3 ? 'visibility' : 'visibility_off'"
+                  :append-icon-cb="() => (e3 = !e3)"
+                  :type="e3 ? 'password' : 'text'"
+                  name="input-10-2"
+                  label="Enter your password"
+                  hint="At least 8 characters"
+                  min="8"
+                  value=""
+                  required
+                ></v-text-field>
+                <v-btn
+                  @click="login"
+                >
+                  Login
+                </v-btn>
+                <v-btn
+                  @click="login"
+                >
+                  Sign Up
+                </v-btn>
+              </v-form>
+
+              <v-btn class="google" block @click="signInGoogle">
+                <img class="icon" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">
+                Login with Google
               </v-btn>
-              <v-btn
-                @click="login"
-              >
-                Sign Up
+              <v-btn class="facebook" block @click="signInFacebook">
+                <img class="icon" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/facebook.svg">
+                Login with Facebook
               </v-btn>
-            </v-form>
-            <v-btn @click="signInGoogle">Login with Gmail</v-btn>
+              <v-btn class="twitter" block @click="signInTwitter">
+                <img class="icon" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/twitter.svg">
+                Login with Twitter
+              </v-btn>
+              <v-btn class="github" block @click="signInGithub">
+                <img class="icon" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/github.svg">
+                Login with GitHub
+              </v-btn>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -198,25 +214,25 @@ export default {
   }
 
   .facebook {
-    background: #3b5998;
+    background: #3b5998 !important;
     color: white;
     width: 100%;
   }
 
   .github {
-    background: black;
+    background: black !important;
     color: #fff;
     width: 100%;
   }
 
   .twitter {
-    background: #1da1f2;
+    background: #1da1f2 !important;
     color: #fff;
     width: 100%;
   }
 
   .google {
-    background: #db4437;
+    background: #727272 !important;
     color: #fff;
     width: 100%;
   }
