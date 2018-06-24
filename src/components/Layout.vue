@@ -24,8 +24,8 @@
               <v-list-tile-title>Cloud firestore</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile>
-            <v-list-tile-content @click="$router.push('/profile')">
+          <v-list-tile @click="$router.push('/profile')">
+            <v-list-tile-content>
               <v-list-tile-title>Update profile</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
