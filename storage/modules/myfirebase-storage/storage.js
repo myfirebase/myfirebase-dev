@@ -23,7 +23,9 @@ export default {
                     file.error(err)
                 },
                 function completed() {
-                    file.completed(task.snapshot.downloadURL)
+                    task.snapshot.ref.getDownloadURL().then(url => {
+                        file.completed(url)
+                    })
                 });
         },
         uploadFiles (state, files) {
