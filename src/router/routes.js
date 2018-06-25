@@ -32,7 +32,7 @@ const routes = [{
             }
         },
         {
-            path: '/app',
+            path: '/realtime-database',
             component: App,
             name: 'Realtime Database',
             meta: {
