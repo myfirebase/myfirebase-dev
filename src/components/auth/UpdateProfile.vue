@@ -14,7 +14,6 @@
         <v-text-field v-model="Profile.displayName" label="Full name"></v-text-field>
         <v-text-field v-model="selectedPhoto.name" label="Avatar" prepend-icon='attach_file' @click="$refs.avatar.click()"></v-text-field>
         <input type="file" style="display: none" ref="avatar" accept="image/*" @change="getFile">
-        
       </div>
     </v-card-title>
     <v-card-actions>
@@ -69,7 +68,6 @@ export default {
   methods: {
     getFile (e) {
       this.selectedPhoto = e.target.files[0]
-      console.log(this.selectedPhoto)
     },
     updateAvatar () {
       if (!this.selectedPhoto) {
@@ -80,7 +78,7 @@ export default {
       this.$storage.upload({
         ref: `/images/${name}`,
         file: this.selectedPhoto,
-        progress: snapshot => {},
+        progress: snapshot => { },
         error: err => {
           this.message = err.message
           this.snackbar = true
@@ -88,19 +86,16 @@ export default {
         completed: downloadURL => {
           this.updateProfilePicture(downloadURL)
           .then(() => {
-            console.log("profile updated")
-          this.synchronize()
-          console.log(this.$auth.user())
-          this.message = 'Your avatar has been updated'
-          this.snackbar = true
-          this.selectedPhoto = { name: "" }
-          this.ready = false; 
+            this.message = 'Your profile info has been updated'
+            this.snackbar = true
+            this.selectedPhoto = { name: "" }
+            this.ready = false
           }).catch(error => {
-              this.message = error.message;
+              this.message = error.message
               this.snackbar = true
           })
         }
-      });
+      })
     },
     updateProfilePicture (fileName) {
       return this.$auth.updateProfilePicture(fileName)
@@ -111,19 +106,15 @@ export default {
         .user()
         .updateProfile(this.Profile.toJson())
         .then(() => {
-          this.snackbar = true
-          this.message = 'You have updated your profile successfully'
-          this.ready = false
+          if (this.selectedPhoto.type != undefined) {
+            this.updateAvatar()
+          }
         })
         .catch(error => {
           this.message = error.message
           this.snackbar = true
           this.ready = false
         });
-
-        if (this.selectedPhoto.type != undefined) {
-          this.updateAvatar()
-        }
     },
     synchronize () {
       this.Profile.setPhotoURL(this.$auth.user().photoURL)
