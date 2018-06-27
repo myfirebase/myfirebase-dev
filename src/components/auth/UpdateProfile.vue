@@ -108,6 +108,10 @@ export default {
         .then(() => {
           if (this.selectedPhoto.type != undefined) {
             this.updateAvatar()
+          } else {
+            this.message = 'Your profile info has been updated'
+            this.snackbar = true
+            this.ready = false
           }
         })
         .catch(error => {
