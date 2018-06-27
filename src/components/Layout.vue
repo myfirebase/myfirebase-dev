@@ -75,8 +75,9 @@ export default {
   },
   methods: {
     logout () {
+      var vm = this
       this.$auth.logout().then(() => {
-        this.$route.push('/login')
+        this.$router.push('/login')
       })
     }
   },
