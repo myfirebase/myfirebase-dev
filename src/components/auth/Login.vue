@@ -34,7 +34,7 @@
                   Login
                 </v-btn>
                 <v-btn
-                  @click="login"
+                  @click="register"
                 >
                   Sign Up
                 </v-btn>
@@ -82,7 +82,7 @@
 </template>
 <script>
 export default {
-  mounted () {
+  mounted() {
     this.$auth.logout();
     this.$auth.state("/realtime-database", "/login").then(user => {
       if (!user) {
@@ -90,7 +90,7 @@ export default {
       }
     });
   },
-  data () {
+  data() {
     return {
       snackbar: false,
       email: "",
@@ -98,43 +98,45 @@ export default {
       error: "",
       ready: false,
       emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+        v => !!v || "E-mail is required",
+        v =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          "E-mail must be valid"
       ],
       e3: true
     };
   },
   computed: {},
   methods: {
-    login () {
-      this.ready = true
-      this.$auth.logout()
+    login() {
+      this.ready = true;
+      this.$auth.logout();
       this.$auth
         .loginWithEmailAndPassword(this.email, this.password)
         .then(user => {
-          this.ready = false
+          this.ready = false;
         })
         .catch(error => {
-          this.snackbar = true
-          this.ready = false
-          this.error = error.message
+          this.snackbar = true;
+          this.ready = false;
+          this.error = error.message;
         });
     },
-    register () {
+    register() {
       this.ready = true;
       this.$auth
         .registerWithEmailAndPassword(this.email, this.password)
         .then(user => {
-          this.ready = false
+          this.ready = false;
         })
         .catch(error => {
-          this.error = error.message
-          this.ready = false
-          this.snackbar = true
+          this.error = error.message;
+          this.ready = false;
+          this.snackbar = true;
         });
     },
-    signInGoogle () {
-      this.ready = true
+    signInGoogle() {
+      this.ready = true;
       this.$auth
         .signInWithGoogle()
         .then(result => {
@@ -142,52 +144,51 @@ export default {
           // console.log("Token : " + result.credential.accessToken)
           // The signed-in user info.
           // console.log("User Email : " + result.user.email)
-          this.ready = false
+          this.ready = false;
         })
         .catch(error => {
-          this.error = error.message
-          this.ready = false
-          this.snackbar = true
-
+          this.error = error.message;
+          this.ready = false;
+          this.snackbar = true;
         });
     },
-    signInFacebook () {
-      this.ready = true
+    signInFacebook() {
+      this.ready = true;
       this.$auth
         .signInWithFacebook()
         .then(result => {
-          this.ready = false
+          this.ready = false;
         })
         .catch(error => {
-          this.error = error.message
-          this.ready = false
-          this.snackbar = true
+          this.error = error.message;
+          this.ready = false;
+          this.snackbar = true;
         });
     },
-    signInTwitter () {
-      this.ready = true
+    signInTwitter() {
+      this.ready = true;
       this.$auth
         .signInWithTwitter()
         .then(result => (this.ready = false))
         .catch(error => {
-          this.error = error.message
-          this.ready = false
-          this.snackbar = true
+          this.error = error.message;
+          this.ready = false;
+          this.snackbar = true;
         });
     },
-    signInGithub () {
-      this.ready = true
+    signInGithub() {
+      this.ready = true;
       this.$auth
         .signInWithGithub()
         .then(result => (this.ready = false))
         .catch(error => {
-          this.error = error.message
-          this.ready = false
-          this.snackbar = true
+          this.error = error.message;
+          this.ready = false;
+          this.snackbar = true;
         });
     },
-    clear () {
-    this.$refs.form.reset()
+    clear() {
+      this.$refs.form.reset();
     }
   }
 };
@@ -195,45 +196,45 @@ export default {
 
 
 <style scoped>
-  .push-down {
-    margin-top: 15px;
-  }
+.push-down {
+  margin-top: 15px;
+}
 
-  .icon {
-    height: 18px;
-    width: 18px;
-    margin-right: 8px;
-  }
-  .mdl-layout {
-    align-items: center;
-    justify-content: center;
-  }
-  .mdl-layout__content {
-    padding: 24px;
-    flex: none;
-  }
+.icon {
+  height: 18px;
+  width: 18px;
+  margin-right: 8px;
+}
+.mdl-layout {
+  align-items: center;
+  justify-content: center;
+}
+.mdl-layout__content {
+  padding: 24px;
+  flex: none;
+}
 
-  .facebook {
-    background: #3b5998 !important;
-    color: white;
-    width: 100%;
-  }
+.facebook {
+  background: #3b5998 !important;
+  color: white;
+  width: 100%;
+}
 
-  .github {
-    background: black !important;
-    color: #fff;
-    width: 100%;
-  }
+.github {
+  background: black !important;
+  color: #fff;
+  width: 100%;
+}
 
-  .twitter {
-    background: #1da1f2 !important;
-    color: #fff;
-    width: 100%;
-  }
+.twitter {
+  background: #1da1f2 !important;
+  color: #fff;
+  width: 100%;
+}
 
-  .google {
-    background: #727272 !important;
-    color: #fff;
-    width: 100%;
-  }
+.google {
+  background: #727272 !important;
+  color: #fff;
+  width: 100%;
+}
 </style>
