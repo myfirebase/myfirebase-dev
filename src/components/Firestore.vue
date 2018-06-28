@@ -48,10 +48,10 @@ export default {
     methods: {
         add () {
             this.Person.add().then((success) => {
-                this.Person.name = ""
             }).catch(error => {
                 console.log(error.message)
             })
+            this.Person.name = ""
         },
         remove (key) {
             this.Person.delete(key).then(() => {
