@@ -75,7 +75,6 @@ export default {
   },
   methods: {
     logout () {
-      var vm = this
       this.$auth.logout().then(() => {
         this.$router.push('/login')
       })
@@ -88,10 +87,5 @@ export default {
 </script>
 
 <style>
-.flex {
-  height: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+ /**/
 </style>
