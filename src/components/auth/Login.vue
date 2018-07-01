@@ -82,7 +82,7 @@
 </template>
 <script>
 export default {
-  mounted() {
+  mounted () {
     this.$auth.logout();
     this.$auth.state("/realtime-database", "/login").then(user => {
       if (!user) {
@@ -90,7 +90,7 @@ export default {
       }
     });
   },
-  data() {
+  data () {
     return {
       snackbar: false,
       email: "",
@@ -108,7 +108,7 @@ export default {
   },
   computed: {},
   methods: {
-    login() {
+    login () {
       this.ready = true;
       this.$auth.logout();
       this.$auth
@@ -122,7 +122,7 @@ export default {
           this.error = error.message;
         });
     },
-    register() {
+    register () {
       this.ready = true;
       this.$auth
         .registerWithEmailAndPassword(this.email, this.password)
@@ -135,7 +135,7 @@ export default {
           this.snackbar = true;
         });
     },
-    signInGoogle() {
+    signInGoogle () {
       this.ready = true;
       this.$auth
         .signInWithGoogle()
@@ -152,7 +152,7 @@ export default {
           this.snackbar = true;
         });
     },
-    signInFacebook() {
+    signInFacebook () {
       this.ready = true;
       this.$auth
         .signInWithFacebook()
@@ -165,7 +165,7 @@ export default {
           this.snackbar = true;
         });
     },
-    signInTwitter() {
+    signInTwitter () {
       this.ready = true;
       this.$auth
         .signInWithTwitter()
@@ -176,7 +176,7 @@ export default {
           this.snackbar = true;
         });
     },
-    signInGithub() {
+    signInGithub () {
       this.ready = true;
       this.$auth
         .signInWithGithub()
@@ -187,7 +187,7 @@ export default {
           this.snackbar = true;
         });
     },
-    clear() {
+    clear () {
       this.$refs.form.reset();
     }
   }
