@@ -44,6 +44,7 @@
           <v-btn flat>Docs</v-btn>
           <v-btn flat>Github</v-btn>
           <v-btn flat v-if="$auth.user()" @click="logout()">SignOut</v-btn>
+          <v-btn flat v-else @click="login()">Login</v-btn>
         </v-toolbar-items>
       </v-toolbar>
       <v-content>
@@ -78,6 +79,9 @@ export default {
       this.$auth.logout().then(() => {
         this.$router.push('/login')
       })
+    },
+    login () {
+      this.$router.push('/login')
     }
   },
   components: {
