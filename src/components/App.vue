@@ -2,13 +2,13 @@
   <div>
     <v-card>
       <v-list two-line subheader>
-        <v-subheader>General</v-subheader>
+        <v-subheader>Items</v-subheader>
         <v-list-tile v-for="(item, index) in data" :key="index">
           <v-list-tile-content>
             <v-list-tile-title>{{item.name}}</v-list-tile-title>
           </v-list-tile-content>
           <v-list-tile-action>
-            <v-icon color="white" @click="deleteItem(item['.key'])">delete</v-icon>
+            <v-icon color="black" @click="deleteItem(item['.key'])">delete</v-icon>
           </v-list-tile-action>
         </v-list-tile>
       </v-list>
@@ -31,7 +31,7 @@
 
 <script>
 
-import Item from "./../models/Item";
+import Item from "@/models/Item";
 
 export default {
   mounted () {
@@ -42,7 +42,7 @@ export default {
     })
 
     // retrieve messaging token.
-    // only for production, you have to register the serviceworker.
+    // only for production, you have to register the service-worker.
 
     // this.$store.state.messaging.getToken()
     //     .then((token) => {
