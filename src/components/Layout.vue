@@ -1,5 +1,5 @@
 <template>
-    <v-app dark>
+    <v-app>
       <v-navigation-drawer app v-model="drawer" :permanent="drawer" hide-overlay width="200" v-if="$auth.user()">
         <v-toolbar flat class="transparent">
           <v-list class="pa-0">
@@ -41,8 +41,8 @@
         <v-toolbar-title>Myfirebase</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn flat>Docs</v-btn>
-          <v-btn flat>Github</v-btn>
+          <v-btn flat @click="RoutesUtils.docs()">Docs</v-btn>
+          <v-btn flat @click="RoutesUtils.github()">Github</v-btn>
           <v-btn flat v-if="$auth.user()" @click="logout()">SignOut</v-btn>
           <v-btn flat v-else @click="login()">Login</v-btn>
         </v-toolbar-items>
@@ -56,7 +56,9 @@
     </v-app>
 </template>
 <script>
-import navbar from "./../components/partials/Navbar";
+import navbar from "@/components/partials/Navbar";
+import RoutesUtils from '@/router/utils'
+
 export default {
   mounted () {
     this.$auth
@@ -66,12 +68,12 @@ export default {
   },
   data () {
     return {
-      message: "Welcome Myfirebase SPA framework",
       items: [
         { title: 'Real time Database', link: 'dashboard' },
         { title: 'Cloud Firestore', link: 'account_box' },
       ],
-      drawer: true
+      drawer: true,
+      RoutesUtils: RoutesUtils.navigarion
     }
   },
   methods: {
