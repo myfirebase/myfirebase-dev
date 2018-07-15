@@ -2,13 +2,13 @@
   <div>
     <v-card>
       <v-list two-line subheader>
-        <v-subheader>General</v-subheader>
+        <v-subheader>Persons</v-subheader>
         <v-list-tile v-for="(person, index) in Persons" :key="index">
           <v-list-tile-content>
             <v-list-tile-title>{{person.name}}</v-list-tile-title>
           </v-list-tile-content>
           <v-list-tile-action>
-            <v-icon color="white" @click="remove(person['.key'])">delete</v-icon>
+            <v-icon color="black" @click="remove(person['.key'])">delete</v-icon>
           </v-list-tile-action>
         </v-list-tile>
       </v-list>
@@ -31,7 +31,7 @@
 
 <script>
 
-import Person from "./../models/Person"
+import Person from "@/models/Person"
 
 export default {
     created () {
