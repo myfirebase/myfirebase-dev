@@ -28,14 +28,10 @@
                   value=""
                   required
                 ></v-text-field>
-                <v-btn
-                  @click="login"
-                >
+                <v-btn @click="login">
                   Login
                 </v-btn>
-                <v-btn
-                  @click="register"
-                >
+                <v-btn @click="register">
                   Sign Up
                 </v-btn>
               </v-form>
