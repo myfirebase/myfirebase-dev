@@ -52,7 +52,10 @@
           <router-view></router-view>
         </v-container>
       </v-content>
-      <v-footer app></v-footer>
+      <v-footer app>
+        <span>&copy; 2018</span>
+        <v-spacer></v-spacer>
+      </v-footer>
     </v-app>
 </template>
 <script>
