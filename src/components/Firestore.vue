@@ -13,11 +13,7 @@
         </v-list-tile>
       </v-list>
       <v-container>
-      <v-text-field
-      label="Person Name"
-      v-model="Person.name"
-      @keyup.enter="add()"
-      ></v-text-field>
+      <v-text-field label="Person Name" v-model="Person.name" @keyup.enter="add()"></v-text-field>
       <v-btn @click="add()">Add Person</v-btn>
       </v-container>
     </v-card>
