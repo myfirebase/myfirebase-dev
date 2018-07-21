@@ -16,7 +16,7 @@ firestore.settings({timestampsInSnapshots: true})
 const database = firebase.database();
 // Messages.
 const messages = database.ref().child('messages');
-// Error.
+// Error.   
 const error = ''
 
 export default new Vuex.Store({
