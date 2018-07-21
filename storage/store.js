@@ -7,16 +7,16 @@ require('firebase/firestore')
 
 Vue.use(Vuex);
 
-// FCM, Firebase cloud messaging
+// FCM, Firebase cloud messaging.
 const fcm = firebase.messaging();
-// Cloud FireStore
+// Cloud Firestore.
 const firestore = firebase.firestore();
 firestore.settings({timestampsInSnapshots: true})
-// Defin database
+// Define database.
 const database = firebase.database();
-// Ref to messages JSON
+// Messages.
 const messages = database.ref().child('messages');
-// Error
+// Error.
 const error = ''
 
 export default new Vuex.Store({
