@@ -11,8 +11,8 @@ import Vue from 'vue'
 import router from '@/router'
 import store from './../storage/store'
 import VueFire from 'vuefire'
-import Myfirebase from './../framework/dist/myfirebase'
-import Firestore from './../vue-firestore/dist/vue-firestore'
+import Myfirebase from 'myfirebase'
+import Firestore from 'vue-firestore'
 
 import Vuetify from 'vuetify'
 
