@@ -10,12 +10,7 @@
             </v-card-title>
             <v-card-text>
               <v-form ref="form" lazy-validation>
-                <v-text-field
-                  v-model="email"
-                  :rules="emailRules"
-                  label="E-mail"
-                  required
-                ></v-text-field>
+                <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
                 <v-text-field
                   v-model="password"
                   :append-icon="e3 ? 'visibility' : 'visibility_off'"
@@ -212,25 +207,25 @@ export default {
 
 .facebook {
   background: #3b5998 !important;
-  color: white;
+  color: white !important;
   width: 100%;
 }
 
 .github {
   background: black !important;
-  color: #fff;
+  color: #fff !important;
   width: 100%;
 }
 
 .twitter {
   background: #1da1f2 !important;
-  color: #fff;
+  color: #fff !important;
   width: 100%;
 }
 
 .google {
   background: #727272 !important;
-  color: #fff;
+  color: #fff !important;
   width: 100%;
 }
 </style>
